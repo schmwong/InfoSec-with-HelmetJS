@@ -1,12 +1,15 @@
 const express = require("express");
 const app = express();
 
-// Install Helmet version 3.21.3,
-// then require it. You can install
-// a specific version of a package with
-// npm install --save-exact package@version,
-// or by adding it to your package.json directly.
+/* -- 1. Install and Require Helmet -- */
 let helmet = require("helmet");
+
+//
+/* -- 2. Hide Potentially Dangerous Information Using helmet.hidePoweredBy() -- */
+// Optional: add {setTo: " "} object in hidePoweredBy() argument
+// to replace Express with a spoof object of your choice
+
+app.use(helmet.hidePoweredBy({ setTo: "PHP 4.2.0" }));
 
 module.exports = app;
 const api = require("./server.js");
