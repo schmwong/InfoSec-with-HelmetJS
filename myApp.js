@@ -5,11 +5,16 @@ const app = express();
 let helmet = require("helmet");
 
 //
-/* -- 2. Hide Potentially Dangerous Information Using helmet.hidePoweredBy() -- */
-// Optional: add {setTo: " "} object in hidePoweredBy() argument
-// to replace Express with a spoof object of your choice
-
+/* -- 2. Hide Potentially Dangerous Information - `helmet.hidePoweredBy()` -- */
+// Optional: add `{setTo: " "}` object in `hidePoweredBy()` argument
+// to replace header value Express with a spoof of your choice
 app.use(helmet.hidePoweredBy({ setTo: "PHP 4.2.0" }));
+
+//
+/* -- 3. Mitigate the Risk of Clickjacking - `helmet.frameguard()` -- */
+// passing to it the configuration object `{ action: "deny"}`
+
+app.use(helmet.frameguard({ action: "deny" }));
 
 module.exports = app;
 const api = require("./server.js");
