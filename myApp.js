@@ -13,8 +13,11 @@ app.use(helmet.hidePoweredBy({ setTo: "PHP 4.2.0" }));
 //
 /* -- 3. Mitigate the Risk of Clickjacking - `helmet.frameguard()` -- */
 // passing to it the configuration object `{ action: "deny"}`
-
 app.use(helmet.frameguard({ action: "deny" }));
+
+//
+/* -- 4. Mitigate the Risk of Cross Site Scripting (XSS) Attacks - helmet.xssFilter() -- */
+app.use(helmet.xssFilter({}));
 
 module.exports = app;
 const api = require("./server.js");
