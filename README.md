@@ -2,19 +2,18 @@
 
 #### All assignments are done in the myApp.js file.
 
-### 1. Install and Require Helmet
+### 1. Install and Require Helmet to be Included
 
 <details>
 <summary>
 Install Helmet version 3.21.3, then require it. 
 </summary>
-
-You can install a specific version of a package with
-
-_npm install --save-exact package@version_,
+<br>
+You can install a specific version of a package with <br>
+`npm install --save-exact package@version`,
 or by adding it to your **package.json** directly.
 
-Solution: run `npm i helmet@3.21.3` in terminal, then initialise helmet in **myApp.js** accordingly.
+> Solution: run `npm i helmet@3.21.3` in terminal, then initialise helmet in **myApp.js** accordingly.
 
 </details>
 
@@ -22,6 +21,7 @@ Solution: run `npm i helmet@3.21.3` in terminal, then initialise helmet in **myA
 
 <details>
 <summary>
+<br>
 Hackers can exploit known vulnerabilities in Express/Node if they see that your site is powered by Express.
 </summary>
 
@@ -49,7 +49,7 @@ When done successfully, the header should be hidden or altered as shown:
 <summary>
 This middleware sets the X-Frame-Options header. It restricts who can put your site in a frame. It has three modes: DENY, SAMEORIGIN, and ALLOW-FROM.
 </summary>
-
+<br>
 Clickjacking is a technique of tricking a user into interacting with a page different from what the user thinks it is. This can be obtained executing your page in a malicious context, by means of iframing. In that context a hacker can put a hidden layer over your page. Hidden buttons can be used to run bad scripts.
 
 Your page could be put in a _<frame>_ or _<iframe>_ without your consent.
@@ -70,7 +70,7 @@ After refreshing the live webpage, the **X-Frame-Options** header should appear 
 <summary>
 Cross-site scripting (XSS) is a frequent type of attack where malicious scripts are injected into vulnerable pages, with the purpose of stealing sensitive data like session cookies, or passwords.
 </summary>
-
+<br>
 The basic rule to lower the risk of an XSS attack is simple: “Never trust user’s input”. As a developer you should always sanitize all the input coming from the outside. This includes data coming from forms, GET query urls, and even from POST bodies. Sanitizing means that you should find and encode the characters that may be dangerous e.g. <, >.
 
 Modern browsers can help mitigating the risk by adopting better software strategies. Often these are configurable via http headers.
@@ -82,5 +82,25 @@ Solution: enclose the `helmet.xssFilter()` method within `app.use( )`
 The **X-XSS-Protection header** will appear with the value **1; mode=block** (i.e. the browser will prevent rendering of the page if an attack is detected) as shown:
 
 ![X-XSS-Protection header shown in Developer Tools](https://github.com/schmwong/InfoSec-with-HelmetJS/blob/main/screenshots/04_x-xss-protection%20header.png)
+
+</details>
+
+### 5. Avoid Inferring the Response MIME Type with helmet.noSniff()
+
+<details>
+<summary>
+Browsers can use content or MIME sniffing to override response **Content-Type** headers to guess and process the data using an implicit content type.
+
+While this can be convenient in some scenarios, it can also lead to some dangerous attacks.
+
+</summary>
+<br>
+This middleware sets the **X-Content-Type-Options** header to **noSniff**, instructing the browser to not bypass the provided Content-Type.
+
+Solution: Use the `helmet.noSniff()` method on your server &#8212 enclose it within `app.use( )`.
+
+The **X-Content-Type-Options** header will appear as shown:
+
+![X-Content-Type-Options header shown in Developer Tools](https://github.com/schmwong/InfoSec-with-HelmetJS/blob/main/screenshots/05_x-content-type-options%20header.png)
 
 </details>

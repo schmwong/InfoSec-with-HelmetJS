@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 
-/* -- 1. Install and Require Helmet -- */
+/* -- 1. Install and Require Helmet to be Included -- */
 let helmet = require("helmet");
 
 //
@@ -18,6 +18,10 @@ app.use(helmet.frameguard({ action: "deny" }));
 //
 /* -- 4. Mitigate the Risk of Cross Site Scripting (XSS) Attacks - helmet.xssFilter() -- */
 app.use(helmet.xssFilter({}));
+
+//
+/* -- 5. Avoid Inferring the Response MIME Type - helmet.noSniff() -- */
+app.use(helmet.noSniff());
 
 module.exports = app;
 const api = require("./server.js");
