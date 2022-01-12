@@ -12,7 +12,7 @@ Install Helmet version 3.21.3, then require it.
 You can install a specific version of a package with <br>
 `npm install --save-exact package@version`,
 or by adding it to your **package.json** directly.
-
+<br>
 > Solution: run `npm i helmet@3.21.3` in terminal, then initialise helmet in **myApp.js** accordingly.
 
 </details>
@@ -21,25 +21,24 @@ or by adding it to your **package.json** directly.
 
 <details>
 <summary>
-<br>
 Hackers can exploit known vulnerabilities in Express/Node if they see that your site is powered by Express.
 </summary>
-
+<br>
 _X-Powered-By: Express_ is sent in every request coming from Express by default. Use the _helmet.hidePoweredBy()_ middleware to remove the X-Powered-By header.
 
-[ How to view headers in browser DevTools](https://www.geeksforgeeks.org/node-js-securing-apps-with-helmet-js/)
-
-- Right-click anywhere on the live webpage, select **Inspect Element**, then navigate to the **Network** tab.
-- Refresh the webpage, then select the item in the **Name** list that has the same name as the page URL (it's usually the first item).
-- Refresh the webpage after saving changes in myApp.js. It might take a while for the headers to update due to FreeCodeCamp's backend.
-
-Solution: enclose the `hidePoweredBy()` method within `app.use( )` to invoke it.
-
-Optional: add configuration object `{ setTo: PHP 4.2.0 }` to change the **X-Powered-By** header value instead of hiding it.
-
-When done successfully, the header should be hidden or altered as shown:
-
-![Updated X-Powered-By header shown in Developer Tools](https://github.com/schmwong/InfoSec-with-HelmetJS/blob/main/screenshots/02_x-powered-by%20header.png)
+> > [ How to view headers in browser DevTools](https://www.geeksforgeeks.org/node-js-securing-apps-with-helmet-js/)
+> >
+> > - Right-click anywhere on the live webpage, select **Inspect Element**, then navigate to the **Network** tab.
+> > - Refresh the webpage, then select the item in the **Name** list that has the same name as the page URL (it's usually the first item).
+> > - Refresh the webpage after saving changes in myApp.js. It might take a while for the headers to update due to FreeCodeCamp's backend.
+> >   <br>
+> >   Solution: enclose the `hidePoweredBy()` method within `app.use( )` to invoke it.
+>
+> Optional: add configuration object `{ setTo: PHP 4.2.0 }` to change the **X-Powered-By** header value instead of hiding it.
+>
+> When done successfully, the header should be hidden or altered as shown:
+>
+> ![Updated X-Powered-By header shown in Developer Tools](https://github.com/schmwong/InfoSec-with-HelmetJS/blob/main/screenshots/02_x-powered-by%20header.png)
 
 </details>
 
@@ -89,12 +88,14 @@ The **X-XSS-Protection header** will appear with the value **1; mode=block** (i.
 
 <details>
 <summary>
+
 Browsers can use content or MIME sniffing to override response **Content-Type** headers to guess and process the data using an implicit content type.
 
 While this can be convenient in some scenarios, it can also lead to some dangerous attacks.
 
 </summary>
 <br>
+
 This middleware sets the **X-Content-Type-Options** header to **noSniff**, instructing the browser to not bypass the provided Content-Type.
 
 Solution: Use the `helmet.noSniff()` method on your server &#8212 enclose it within `app.use( )`.
@@ -102,5 +103,23 @@ Solution: Use the `helmet.noSniff()` method on your server &#8212 enclose it wit
 The **X-Content-Type-Options** header will appear as shown:
 
 ![X-Content-Type-Options header shown in Developer Tools](https://github.com/schmwong/InfoSec-with-HelmetJS/blob/main/screenshots/05_x-content-type-options%20header.png)
+
+</details>
+
+### 6. Prevent IE from Opening Untrusted HTML with helmet.ieNoOpen()
+
+<details>
+<summary>
+Some web applications will serve untrusted HTML for download. Some versions of Internet Explorer by default open those HTML files in the context of your site. This means that an untrusted HTML page could start doing bad things in the context of your pages. 
+</summary>
+<br>
+
+This middleware sets the **X-Download-Options** header to **ieNoOpen**. This will prevent IE users from executing downloads in the trusted site’s context.
+
+> Solution: enclose the `helmet.ieNoOpen()` method within `app.use( )`
+>
+> The **X-Download-Options** header will appear as shown:
+>
+> ![X-Download-Options header shown in Developer Tools](https://github.com/schmwong/InfoSec-with-HelmetJS/blob/main/screenshots/06_x-download-options%20header.png)
 
 </details>

@@ -23,6 +23,10 @@ app.use(helmet.xssFilter({}));
 /* -- 5. Avoid Inferring the Response MIME Type - helmet.noSniff() -- */
 app.use(helmet.noSniff());
 
+//
+/* -- 6. Prevent Internet Explorer users from downloading in *trusted* site's context -- */
+app.use(helmet.ieNoOpen());
+
 module.exports = app;
 const api = require("./server.js");
 app.use(express.static("public"));
