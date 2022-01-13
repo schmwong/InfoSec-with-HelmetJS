@@ -27,6 +27,17 @@ app.use(helmet.noSniff());
 /* -- 6. Prevent Internet Explorer users from downloading in *trusted* site's context -- */
 app.use(helmet.ieNoOpen());
 
+//
+/* -- 7. Ask Browsers to Access Your Site via HTTPS Only with helmet.hsts() -- */
+var ninetyDaysInSeconds = 90 * 24 * 60 * 60;
+
+app.use(
+  helmet.hsts({
+    maxAge: ninetyDaysInSeconds,
+    force: true
+  })
+);
+
 module.exports = app;
 const api = require("./server.js");
 app.use(express.static("public"));

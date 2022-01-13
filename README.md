@@ -9,10 +9,11 @@
 Install Helmet version 3.21.3, then require it. 
 </summary>
 <br>
-You can install a specific version of a package with <br>
+You can install a specific version of a package with
+
 `npm install --save-exact package@version`,
 or by adding it to your **package.json** directly.
-<br>
+
 > Solution: run `npm i helmet@3.21.3` in terminal, then initialise helmet in **myApp.js** accordingly.
 
 </details>
@@ -24,14 +25,15 @@ or by adding it to your **package.json** directly.
 Hackers can exploit known vulnerabilities in Express/Node if they see that your site is powered by Express.
 </summary>
 <br>
-_X-Powered-By: Express_ is sent in every request coming from Express by default. Use the _helmet.hidePoweredBy()_ middleware to remove the X-Powered-By header.
+
+_X-Powered-By: Express_ is sent in every request coming from Express by default. Use the `helmet.hidePoweredBy()` middleware to remove the **X-Powered-By** header. <br>
 
 > > [ How to view headers in browser DevTools](https://www.geeksforgeeks.org/node-js-securing-apps-with-helmet-js/)
 > >
 > > - Right-click anywhere on the live webpage, select **Inspect Element**, then navigate to the **Network** tab.
 > > - Refresh the webpage, then select the item in the **Name** list that has the same name as the page URL (it's usually the first item).
 > > - Refresh the webpage after saving changes in myApp.js. It might take a while for the headers to update due to FreeCodeCamp's backend.
-> >   <br>
+> >
 > >   Solution: enclose the `hidePoweredBy()` method within `app.use( )` to invoke it.
 >
 > Optional: add configuration object `{ setTo: PHP 4.2.0 }` to change the **X-Powered-By** header value instead of hiding it.
@@ -88,8 +90,9 @@ The **X-XSS-Protection header** will appear with the value **1; mode=block** (i.
 
 <details>
 <summary>
+Browsers can use content or MIME sniffing to override
 
-Browsers can use content or MIME sniffing to override response **Content-Type** headers to guess and process the data using an implicit content type.
+response **Content-Type** headers to guess and process the data using an implicit content type.
 
 While this can be convenient in some scenarios, it can also lead to some dangerous attacks.
 
@@ -98,11 +101,11 @@ While this can be convenient in some scenarios, it can also lead to some dangero
 
 This middleware sets the **X-Content-Type-Options** header to **noSniff**, instructing the browser to not bypass the provided Content-Type.
 
-Solution: Use the `helmet.noSniff()` method on your server &#8212 enclose it within `app.use( )`.
-
-The **X-Content-Type-Options** header will appear as shown:
-
-![X-Content-Type-Options header shown in Developer Tools](https://github.com/schmwong/InfoSec-with-HelmetJS/blob/main/screenshots/05_x-content-type-options%20header.png)
+> Solution: Use the `helmet.noSniff()` method on your server — enclose it within `app.use( )`.
+>
+> The **X-Content-Type-Options** header will appear as shown:
+>
+> ![X-Content-Type-Options header shown in Developer Tools](https://github.com/schmwong/InfoSec-with-HelmetJS/blob/main/screenshots/05_x-content-type-options%20header.png)
 
 </details>
 
@@ -121,5 +124,32 @@ This middleware sets the **X-Download-Options** header to **ieNoOpen**. This wil
 > The **X-Download-Options** header will appear as shown:
 >
 > ![X-Download-Options header shown in Developer Tools](https://github.com/schmwong/InfoSec-with-HelmetJS/blob/main/screenshots/06_x-download-options%20header.png)
+
+</details>
+
+### 7. Ask Browsers to Access Your Site via HTTPS Only with helmet.hsts()
+
+<details>
+<summary>
+HTTP Strict Transport Security (HSTS) is a web security policy which helps to protect websites against protocol downgrade attacks and cookie hijacking. 
+</summary>
+<br>
+If your website can be accessed via HTTPS you can ask user’s browsers to avoid using insecure HTTP.
+
+By setting the header **Strict-Transport-Security**, you tell the browsers to use HTTPS for the future requests in a specified amount of time. This will work for the requests coming after the initial request.
+
+Configure `helmet.hsts()` to use HTTPS for the next 90 days. Pass the config object `{ maxAge: timeInSeconds, force: true }`. You can create a variable `ninetyDaysInSeconds = 90*24*60*60;` to use for the `timeInSeconds`. Replit already has hsts enabled. To override its settings you need to set the field "force" to true in the config object. We will intercept and restore the Replit header, after inspecting it for testing.
+
+Note: Configuring HTTPS on a custom website requires the acquisition of a domain, and a SSL/TLS Certificate.
+
+> Solution:
+>
+> - Create and initialise the variable `var ninetyDaysInSeconds` as shown in the instructions.
+> - On a new line, enclose the `helmet.hsts()` method within `app.use( )`
+> - Pass the configuration object containing two properties, `maxAge: ninetyDaysInSeconds` and `force: true`.
+>
+> The **Strict-Transport-Security** header should appear with the **maxAge** value of **7776000s** as shown:
+>
+> ![X-Download-Options header shown in Developer Tools](https://github.com/schmwong/InfoSec-with-HelmetJS/blob/main/screenshots/07_strict-transport-security%20header.png)
 
 </details>
