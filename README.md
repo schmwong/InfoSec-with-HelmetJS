@@ -153,3 +153,24 @@ Note: Configuring HTTPS on a custom website requires the acquisition of a domain
 > ![X-Download-Options header shown in Developer Tools](https://github.com/schmwong/InfoSec-with-HelmetJS/blob/main/screenshots/07_strict-transport-security%20header.png)
 
 </details>
+
+### 8. Disable DNS Prefetching with helmet.dnsPrefetchControl()
+
+<details>
+<summary>
+To improve performance, most browsers prefetch DNS records for the links in a page. In that way the destination IP is already known when the user clicks on a link. This may lead to over-use of the DNS service 
+</summary>
+
+(if you own a big website, visited by millions people…), privacy issues (one eavesdropper could infer that you are on a certain page), or page statistics alteration (some links may appear visited even if they are not).
+
+If you have high security needs you can disable DNS prefetching, at the cost of a performance penalty.
+
+Use the `helmet.dnsPrefetchControl()` method on your server.
+
+> Solution: Solution: enclose the `helmet.dnsPrefetchControl()` method within `app.use( )`
+>
+> The **X-DNS-Prefetch-Control** header will appear as shown:
+>
+> ![X-Download-Options header shown in Developer Tools](https://github.com/schmwong/InfoSec-with-HelmetJS/blob/main/screenshots/08_x-dns-prefetch-control%20header.png)
+
+</details>
