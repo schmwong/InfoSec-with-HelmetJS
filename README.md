@@ -174,3 +174,22 @@ Use the `helmet.dnsPrefetchControl()` method on your server.
 > ![X-Download-Options header shown in Developer Tools](https://github.com/schmwong/InfoSec-with-HelmetJS/blob/main/screenshots/08_x-dns-prefetch-control%20header.png)
 
 </details>
+
+### 9. Disable Client-Side Caching with helmet.noCache()
+
+<details>
+<summary>
+If you are releasing an update for your website, and you want the users to always download the newer version, you can (try to) disable caching on client’s browser. 
+</summary>
+<br>
+It can be useful in development too. Caching has performance benefits, which you will lose, so only use this option when there is a real need.
+
+Use the `helmet.noCache()` method on your server.
+
+> Solution: Solution: enclose the `helmet.noCache()` method within `app.use( )`
+>
+> The **Pragma** header appears and the **Cache-Control** header will have its values changed to **no-store, no-cache, must-revalidate, proxy-revalidate** as shown:
+>
+> ![Pragma and Cache-Control headers shown in Developer Tools](https://github.com/schmwong/InfoSec-with-HelmetJS/blob/main/screenshots/09_pragma%20and%20cache-control%20headers.png)
+
+</details>
