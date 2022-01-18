@@ -55,6 +55,29 @@ app.use(helmet.contentSecurityPolicy({
   }
 }));
 
+// 
+/* -- Configure Helmet Using the ‘parent’ helmet() Middleware -- */
+
+app.use(helmet({
+  frameguard: {        
+    action: 'deny'
+  },
+  hidePoweredBy: {
+    setTo:"PHP 4.2.0"
+    },
+  noCache: true,
+  hsts: {
+    maxAge: ninetyDaysInSeconds,
+    force: true
+  },
+  contentSecurityPolicy: {    
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ['trusted-cdn.com'],
+    }
+  },
+  dnsPrefetchControl: false
+}))
 
 
 module.exports = app;

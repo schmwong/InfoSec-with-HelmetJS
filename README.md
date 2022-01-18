@@ -223,3 +223,60 @@ Hint: in the `'self'` keyword, the single quotes are part of the keyword itself,
 > ![Content-Security-Policy header shown in Developer Tools](https://github.com/schmwong/InfoSec-with-HelmetJS/blob/main/screenshots/10_content-security-policy%20header.png)
 
 </details>
+
+### 11. Configure Helmet Using the ‘parent’ helmet() Middleware
+
+<details>
+<summary>
+
+`app.use(helmet());` will automatically include all the middleware introduced above, except `noCache()`, and `contentSecurityPolicy()`, but these can be enabled if necessary. You can also disable or configure any other middleware individually, using a configuration object.
+
+
+**Example:**
+``` javascript
+app.use(helmet({
+  frameguard: {         // configure
+    action: 'deny'
+  },
+  contentSecurityPolicy: {    // enable and configure
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ['style.com'],
+    }
+  },
+  dnsPrefetchControl: false     // disable
+}))
+```
+
+We introduced each middleware separately for teaching purposes and for ease of testing. Using the ‘parent’ `helmet()` middleware is easy to implement in a real project.
+
+</summary>
+
+> Solution: 
+>
+``` javascript
+app.use(helmet({
+  frameguard: {        
+    action: 'deny'
+  },
+  hidePoweredBy: {
+    setTo:"PHP 4.2.0"
+    },
+  noCache: true,
+  hsts: {
+    maxAge: ninetyDaysInSeconds,
+    force: true
+  },
+  contentSecurityPolicy: {    
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ['trusted-cdn.com'],
+    }
+  },
+  dnsPrefetchControl: false     // disable
+}))
+```
+>
+> Comment out or delete the solutions for the previous questions to test this out. <br>
+The response headers should remain unchanged.
+</details>
